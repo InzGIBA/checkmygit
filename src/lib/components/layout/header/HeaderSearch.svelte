@@ -7,10 +7,10 @@
 
 	let { username = '' }: Props = $props();
 
-	let searchValue = $state(username);
+	let searchValue = $state('');
 	let searchFocused = $state(false);
 
-	// Update searchValue when username changes (e.g. navigation)
+	// Sync searchValue with the username prop whenever it changes
 	$effect(() => {
 		searchValue = username;
 	});
