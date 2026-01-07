@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import Button from '$lib/components/ui/Button.svelte';
 	import { validateGitHubUsername } from '$lib/types/portfolio';
 	import { formatNumber } from '$lib/utils/github-transform';
+	import { navigationState } from '$lib/stores/navigation.svelte';
 
 	interface Props {
 		totalPortfolios?: number;
@@ -12,17 +12,18 @@
 	
 	let username = $state('');
 	let error = $state('');
-	let isLoading = $state(false);
 
-	function handleSubmit() {
+	// Derive loading from navigation state
+	let isLoading = $derived(navigationState.isLoading);
+
+	async function handleSubmit() {
 		const validation = validateGitHubUsername(username);
 		if (!validation.valid) {
 			error = validation.errors[0];
 			return;
 		}
 		error = '';
-		isLoading = true;
-		goto(`/${username.trim()}`);
+		await navigationState.navigateToProfile(username.trim());
 	}
 
 	function handleKeydown(e: KeyboardEvent) {

@@ -1,9 +1,15 @@
 <script lang="ts">
+	import { navigationState } from '$lib/stores/navigation.svelte';
+
 	const featuredProfiles = [
 		{ username: 'torvalds', name: 'Linus Torvalds', role: 'Creator of Linux & Git' },
 		{ username: 'rich-harris', name: 'Rich Harris', role: 'Creator of Svelte' },
 		{ username: 'whoisyurii', name: 'Yurii', role: 'Full Stack Developer' }
 	];
+
+	async function handleProfileClick(username: string) {
+		await navigationState.navigateToProfile(username);
+	}
 </script>
 
 <section class="animate-fade-in-delay-3 relative z-10 border-t border-[var(--color-border-muted)] bg-[var(--color-bg-secondary)] py-24">
@@ -15,7 +21,11 @@
 
 		<div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
 			{#each featuredProfiles as profile}
-				<a href="/{profile.username}" class="group relative overflow-hidden rounded-2xl border border-[var(--color-border-default)] bg-[var(--color-bg-tertiary)] p-6 transition-all hover:border-[var(--color-border-highlight)] hover:shadow-xl">
+				<button
+					type="button"
+					onclick={() => handleProfileClick(profile.username)}
+					class="group relative overflow-hidden rounded-2xl border border-[var(--color-border-default)] bg-[var(--color-bg-tertiary)] p-6 text-left transition-all hover:border-[var(--color-border-highlight)] hover:shadow-xl cursor-pointer"
+				>
 					<div class="flex items-center gap-4">
 						<div class="relative">
 							<img
@@ -31,7 +41,7 @@
 						</div>
 					</div>
 					<p class="mt-4 text-sm font-medium text-[var(--color-text-secondary)]">{profile.role}</p>
-				</a>
+				</button>
 			{/each}
 		</div>
 	</div>

@@ -1,9 +1,14 @@
 <script lang="ts">
 	import './layout.css';
 	import { toastState } from '$lib/stores/generator.svelte';
+	import { navigationState } from '$lib/stores/navigation.svelte';
 	import Toast from '$lib/components/ui/Toast.svelte';
+	import LoadingTransition from '$lib/components/ui/LoadingTransition.svelte';
 
 	let { children } = $props();
+
+	// Check if we're in exiting phase
+	let isExiting = $derived(navigationState.phase === 'exiting');
 </script>
 
 <svelte:head>
@@ -13,9 +18,12 @@
 	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 </svelte:head>
 
-<div class="min-h-screen bg-[var(--color-bg-primary)]">
+<div class="min-h-screen bg-[var(--color-bg-primary)]" class:page-exit={isExiting}>
 	{@render children()}
 </div>
+
+<!-- Loading Transition Overlay -->
+<LoadingTransition />
 
 <!-- Toast Container -->
 {#if toastState.toasts.length > 0}

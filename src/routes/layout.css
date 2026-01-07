@@ -187,3 +187,34 @@ a {
 	z-index: 0;
 }
 
+/* Page Transition Animations */
+@keyframes pageExitUp {
+	from {
+		opacity: 1;
+		transform: translateY(0);
+	}
+	to {
+		opacity: 0;
+		transform: translateY(-60px);
+	}
+}
+
+@keyframes pageEnterFromBottom {
+	from {
+		opacity: 0;
+		transform: translateY(60px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.page-exit {
+	animation: pageExitUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+	pointer-events: none;
+}
+
+.page-enter {
+	animation: pageEnterFromBottom 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

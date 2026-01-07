@@ -1,16 +1,29 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
 	import Header from '$lib/components/layout/Header.svelte';
 	import Footer from '$lib/components/layout/Footer.svelte';
 	import TemplateGitHub from '$lib/components/templates/TemplateGitHub.svelte';
 	import TemplateBento from '$lib/components/templates/TemplateBento.svelte';
 	import TemplateMinimal from '$lib/components/templates/TemplateMinimal.svelte';
 	import { generatorState, toastState } from '$lib/stores/generator.svelte';
+	import { navigationState } from '$lib/stores/navigation.svelte';
 	import { generateShareUrl } from '$lib/utils/github-transform';
 	import type { TemplateType } from '$lib/types/portfolio';
 
 	let { data } = $props();
+
+	// Track if we came from a navigation (for enter animation)
+	let showEnterAnimation = $state(navigationState.phase === 'loading' || navigationState.phase === 'exiting');
+
+	// Signal that the profile has loaded - trigger enter animation
+	onMount(() => {
+		// Small delay to ensure the page has rendered before revealing
+		requestAnimationFrame(() => {
+			navigationState.profileLoaded();
+		});
+	});
 
 	// Initialize template from URL params
 	$effect(() => {
@@ -83,23 +96,25 @@
 	<meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
 
-<Header
+<div class:page-enter={showEnterAnimation}>
+	<Header
 	username={data.username}
 	template={generatorState.template}
 	showControls={true}
 	onTemplateChange={handleTemplateChange}
 	onExport={handleExport}
 	onShare={handleShare}
-/>
+	/>
 
-<main id="portfolio-container" class="min-h-screen bg-[var(--color-bg-primary)]">
-	{#if generatorState.template === 'github'}
-		<TemplateGitHub profile={data.profile} views={data.views} />
-	{:else if generatorState.template === 'bento'}
-		<TemplateBento profile={data.profile} views={data.views} />
-	{:else if generatorState.template === 'minimal'}
-		<TemplateMinimal profile={data.profile} views={data.views} />
-	{/if}
-</main>
+	<main id="portfolio-container" class="min-h-screen bg-[var(--color-bg-primary)]">
+		{#if generatorState.template === 'github'}
+			<TemplateGitHub profile={data.profile} views={data.views} />
+		{:else if generatorState.template === 'bento'}
+			<TemplateBento profile={data.profile} views={data.views} />
+		{:else if generatorState.template === 'minimal'}
+			<TemplateMinimal profile={data.profile} views={data.views} />
+		{/if}
+	</main>
 
-<Footer />
+	<Footer />
+</div>
