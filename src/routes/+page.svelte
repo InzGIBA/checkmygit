@@ -10,7 +10,7 @@
 </script>
 
 <svelte:head>
-	<title>GitProfile - Your GitHub story, beautifully told</title>
+	<title>CheckMyGit - Your GitHub story, beautifully told</title>
 	<meta name="description" content="Transform any GitHub profile into a stunning portfolio." />
 </svelte:head>
 

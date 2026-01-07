@@ -10,7 +10,7 @@
 	<div class="mx-auto max-w-5xl px-6">
 		<div class="mb-12 text-center">
 			<h2 class="mb-4 text-3xl font-bold text-[var(--color-text-primary)]">Featured Profiles</h2>
-			<p class="text-[var(--color-text-secondary)]">See what GitProfile can do for these legends</p>
+			<p class="text-[var(--color-text-secondary)]">See what CheckMyGit can do for these legends</p>
 		</div>
 
 		<div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3">

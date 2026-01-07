@@ -13,7 +13,7 @@
 					/>
 				</svg>
 				<span class="text-sm">
-					GitProfile &copy; {currentYear}
+					CheckMyGit &copy; {currentYear}
 				</span>
 			</div>
 

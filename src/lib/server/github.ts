@@ -112,7 +112,7 @@ async function fetchUserGraphQL(username: string): Promise<GitHubResult<GitHubPr
 			headers: {
 				Authorization: `Bearer ${GITHUB_TOKEN}`,
 				'Content-Type': 'application/json',
-				'User-Agent': 'GitProfile-Pro'
+				'User-Agent': 'CheckMyGit'
 			},
 			body: JSON.stringify({
 				query: USER_QUERY,
@@ -179,7 +179,7 @@ async function fetchUserGraphQL(username: string): Promise<GitHubResult<GitHubPr
 async function fetchUserREST(username: string): Promise<GitHubResult<GitHubProfile>> {
 	try {
 		const headers: HeadersInit = {
-			'User-Agent': 'GitProfile-Pro',
+			'User-Agent': 'CheckMyGit',
 			Accept: 'application/vnd.github.v3+json'
 		};
 
@@ -438,7 +438,7 @@ function calculateYearsActive(createdAt: string): number {
 export async function checkRateLimit(): Promise<{ remaining: number; reset: Date } | null> {
 	try {
 		const headers: HeadersInit = {
-			'User-Agent': 'GitProfile-Pro'
+			'User-Agent': 'CheckMyGit'
 		};
 		if (GITHUB_TOKEN) {
 			headers.Authorization = `Bearer ${GITHUB_TOKEN}`;

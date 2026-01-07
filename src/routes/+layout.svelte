@@ -7,7 +7,7 @@
 </script>
 
 <svelte:head>
-	<title>GitProfile - GitHub Portfolio Generator</title>
+	<title>CheckMyGit - GitHub Portfolio Generator</title>
 	<meta name="description" content="Generate beautiful portfolio pages from your GitHub profile. Showcase your projects, contributions, and skills." />
 	<meta name="theme-color" content="#0d1117" />
 	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />

@@ -38,7 +38,7 @@
 						</p>
 					</div>
 					<div class="text-right text-xs text-[var(--color-text-tertiary)]">
-						Powered by <span class="font-semibold text-[var(--color-accent-green)]">GitProfile</span>
+						Powered by <span class="font-semibold text-[var(--color-accent-green)]">CheckMyGit</span>
 					</div>
 				</div>
 			</Card>

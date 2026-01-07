@@ -74,9 +74,9 @@
 </script>
 
 <svelte:head>
-	<title>{data.profile.user.name || data.username} - GitProfile</title>
+	<title>{data.profile.user.name || data.username} - CheckMyGit</title>
 	<meta name="description" content="GitHub portfolio for {data.profile.user.name || data.username}. {data.profile.user.bio || 'View their projects and contributions.'}" />
-	<meta property="og:title" content="{data.profile.user.name || data.username} - GitProfile" />
+	<meta property="og:title" content="{data.profile.user.name || data.username} - CheckMyGit" />
 	<meta property="og:description" content="{data.profile.user.bio || `GitHub portfolio for ${data.username}`}" />
 	<meta property="og:image" content="{data.profile.user.avatarUrl}" />
 	<meta property="og:type" content="profile" />

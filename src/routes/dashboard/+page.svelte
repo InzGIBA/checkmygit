@@ -6,7 +6,7 @@
 </script>
 
 <svelte:head>
-	<title>Dashboard - GitProfile</title>
+	<title>Dashboard - CheckMyGit</title>
 </svelte:head>
 
 <Header />
@@ -35,7 +35,7 @@
 			</Button>
 		</div>
 		<p class="mt-4 text-xs text-[var(--color-text-tertiary)]">
-			Your portfolio link format: gitprofile.dev/username
+			Your portfolio link format: checkmygit.dev/username
 		</p>
 	</Card>
 </main>
