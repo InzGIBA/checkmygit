@@ -2,6 +2,7 @@
 	import Header from '$lib/components/layout/Header.svelte';
 	import Footer from '$lib/components/layout/Footer.svelte';
 	import Hero from '$lib/components/landing/Hero.svelte';
+	import ScreenshotShowcase from '$lib/components/landing/ScreenshotShowcase.svelte';
 	import Features from '$lib/components/landing/Features.svelte';
 	import FeaturedProfiles from '$lib/components/landing/FeaturedProfiles.svelte';
 	import CallToAction from '$lib/components/landing/CallToAction.svelte';
@@ -23,6 +24,7 @@
 	<div class="absolute inset-0 z-0 grid-bg"></div>
 	
 	<Hero totalPortfolios={data.totalPortfolios} />
+	<ScreenshotShowcase />
 	<Features />
 	<FeaturedProfiles />
 	<CallToAction />
