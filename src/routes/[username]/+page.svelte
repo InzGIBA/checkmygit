@@ -60,7 +60,6 @@
 				pixelRatio: 2,
 				cacheBust: true,
 				skipFonts: true,
-				fontEmbedCSS: '',
 				filter: (node) => {
 					// Skip script tags and other problematic nodes
 					return !(node instanceof HTMLScriptElement);
