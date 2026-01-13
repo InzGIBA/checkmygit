@@ -12,6 +12,7 @@
 	import ExportContainer from '$lib/components/export/ExportContainer.svelte';
 	import { generatorState, toastState } from '$lib/stores/generator.svelte';
 	import { navigationState } from '$lib/stores/navigation.svelte';
+	import { themeState } from '$lib/stores/theme.svelte';
 	import { generateShareUrl } from '$lib/utils/github-transform';
 	import type { TemplateType } from '$lib/types/portfolio';
 	import type { GitHubProfile } from '$lib/types/github';
@@ -52,13 +53,24 @@
 		});
 	});
 
+	// Check if on mobile (matches Tailwind's sm breakpoint: 640px)
+	function isMobile(): boolean {
+		if (typeof window === 'undefined') return false;
+		return window.innerWidth < 640;
+	}
+
 	// Initialize template from URL params
 	$effect(() => {
 		const params = $page.url.searchParams;
 		generatorState.loadFromParams(params);
+
+		// Force GitHub template on mobile
+		if (isMobile() && generatorState.template !== 'github') {
+			generatorState.setTemplate('github');
+		}
 	});
 
-	// Handle template change
+	// Handle template change (only called on desktop since selector is hidden on mobile)
 	function handleTemplateChange(template: TemplateType) {
 		generatorState.setTemplate(template);
 		// Update URL without navigation
@@ -111,7 +123,7 @@
 	async function handleShare() {
 		const url = generateShareUrl(data.username, {
 			template: generatorState.template,
-			theme: generatorState.theme
+			theme: themeState.current
 		});
 
 		try {

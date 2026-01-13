@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/components/ui/Button.svelte';
+	import ThemeToggle from '$lib/components/ui/ThemeToggle.svelte';
 	import { REPO_URL, GITHUB_API_URL } from '$lib/constants';
 
 	interface Props {
@@ -56,6 +57,8 @@
 			<span class="hidden sm:inline">Share</span>
 		</Button>
 	{/if}
+
+	<ThemeToggle />
 
 	<Button variant="secondary" size="sm" href={REPO_URL} target="_blank">
 		<svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">

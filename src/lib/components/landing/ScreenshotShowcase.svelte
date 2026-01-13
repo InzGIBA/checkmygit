@@ -1,8 +1,12 @@
 <script lang="ts">
-	import screenshotImg from '$lib/assets/readme_img.png';
+	import { themeState } from '$lib/stores/theme.svelte';
+	import screenshotDark from '$lib/assets/readme_img.png';
+	import screenshotLight from '$lib/assets/white_showcase.png';
 
 	let scrollY = $state(0);
 	let sectionEl = $state<HTMLElement | null>(null);
+
+	const screenshotImg = $derived(themeState.isLight ? screenshotLight : screenshotDark);
 
 	// Calculate rotation based on scroll position relative to section
 	let rotateX = $derived.by(() => {

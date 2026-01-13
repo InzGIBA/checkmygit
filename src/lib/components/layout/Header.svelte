@@ -31,7 +31,10 @@
 		<!-- Center section with search or controls -->
 		<div class="flex flex-1 items-center justify-center gap-4">
 			{#if showControls}
-				<HeaderControls {template} {onTemplateChange} />
+				<!-- Template selector hidden on mobile - GitHub style is default -->
+				<div class="hidden sm:block">
+					<HeaderControls {template} {onTemplateChange} />
+				</div>
 			{:else}
 				<HeaderSearch {username} />
 			{/if}
