@@ -52,8 +52,15 @@ jobs:
         run: touch build/.nojekyll
       
       - name: Add CNAME file (if custom domain)
-        if: ${{ secrets.CUSTOM_DOMAIN != '' }}
-        run: echo "${{ secrets.CUSTOM_DOMAIN }}" > build/CNAME
+        env:
+          CUSTOM_DOMAIN: ${{ secrets.CUSTOM_DOMAIN }}
+        run: |
+          if [ -n "$CUSTOM_DOMAIN" ]; then
+            echo "$CUSTOM_DOMAIN" > build/CNAME
+            echo "CNAME file created with domain: $CUSTOM_DOMAIN"
+          else
+            echo "No custom domain configured, skipping CNAME file"
+          fi
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
