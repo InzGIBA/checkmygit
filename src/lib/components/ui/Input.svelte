@@ -63,7 +63,6 @@
 		{onchange}
 		{oninput}
 		{onkeydown}
-		autofocus={autofocus}
 		class="
 			w-full rounded-[var(--radius-md)] border bg-[var(--color-bg-secondary)]
 			text-[var(--color-text-primary)] placeholder-[var(--color-text-placeholder)]

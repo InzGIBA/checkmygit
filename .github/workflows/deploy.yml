@@ -1,0 +1,74 @@
+name: Deploy to GitHub Pages
+
+on:
+  # Запуск при push в main
+  push:
+    branches: [main]
+  
+  # Запуск по расписанию (ежедневно в 00:00 UTC)
+  schedule:
+    - cron: '0 0 * * *'
+  
+  # Возможность ручного запуска
+  workflow_dispatch:
+
+# Разрешения для деплоя на GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Предотвращение одновременных деплоев
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build site
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_USERNAME: ${{ secrets.GH_USERNAME }}
+          BASE_PATH: ${{ secrets.BASE_PATH || '' }}
+          CUSTOM_DOMAIN: ${{ secrets.CUSTOM_DOMAIN || '' }}
+        run: npm run build
+      
+      - name: Add .nojekyll file
+        run: touch build/.nojekyll
+      
+      - name: Add CNAME file (if custom domain)
+        if: ${{ secrets.CUSTOM_DOMAIN != '' }}
+        run: echo "${{ secrets.CUSTOM_DOMAIN }}" > build/CNAME
+      
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./build
+  
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

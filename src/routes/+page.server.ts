@@ -1,11 +1,20 @@
+import { env } from '$env/dynamic/private';
+import { fetchProfileDataAtBuildTime } from '$lib/build/fetchProfileData';
+import siteConfig from '../../site.config';
 import type { PageServerLoad } from './$types';
-import { getGlobalViewCount } from '$lib/server/kv';
 
-export const load: PageServerLoad = async ({ platform }) => {
-	// Get global view count with caching and 429 fallback
-	const result = await getGlobalViewCount(platform);
+export const prerender = true;
 
+export const load: PageServerLoad = async () => {
+	// Read username from environment variable, fallback to config
+	const username = env.GITHUB_USERNAME || siteConfig.username;
+	
+	// Данные будут получены во время сборки и встроены в статический HTML
+	const profile = await fetchProfileDataAtBuildTime(username);
+	
 	return {
-		totalPortfolios: result.count
+		profile,
+		username,
+		template: siteConfig.defaultTemplate
 	};
 };
