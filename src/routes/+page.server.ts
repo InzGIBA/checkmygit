@@ -7,7 +7,7 @@ export const prerender = true;
 
 export const load: PageServerLoad = async () => {
 	// Read username from environment variable, fallback to config
-	const username = env.GITHUB_USERNAME || siteConfig.username;
+	const username = env.GH_USERNAME || siteConfig.username;
 	
 	// Данные будут получены во время сборки и встроены в статический HTML
 	const profile = await fetchProfileDataAtBuildTime(username);
