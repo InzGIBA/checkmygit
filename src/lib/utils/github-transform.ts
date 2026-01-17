@@ -83,25 +83,42 @@ export function generateProfileTags(profile: GitHubProfile): string[] {
 	const tags: string[] = [];
 
 	// Based on stars
-	if (profile.stats.totalStars > 1000) {
+	if (profile.stats.totalStars > 10000) {
+		tags.push('Star Collector');
+	} else if (profile.stats.totalStars > 1000) {
 		tags.push('Popular Creator');
 	} else if (profile.stats.totalStars > 100) {
 		tags.push('Rising Star');
 	}
 
 	// Based on repos
-	if (profile.stats.totalRepos > 50) {
+	if (profile.stats.totalRepos > 100) {
+		tags.push('Super Prolific');
+	} else if (profile.stats.totalRepos > 50) {
 		tags.push('Prolific');
+	} else if (profile.stats.totalRepos > 20) {
+		tags.push('Active Builder');
 	}
 
 	// Based on followers
-	if (profile.stats.followers > 1000) {
+	if (profile.stats.followers > 5000) {
+		tags.push('Major Influencer');
+	} else if (profile.stats.followers > 1000) {
 		tags.push('Influencer');
+	} else if (profile.stats.followers > 500) {
+		tags.push('Well Known');
 	} else if (profile.stats.followers > 100) {
 		tags.push('Community Member');
 	}
 
-	// Based on languages
+	// Based on languages diversity
+	if (profile.languages.length > 10) {
+		tags.push('Polyglot');
+	} else if (profile.languages.length > 5) {
+		tags.push('Multi-Stack');
+	}
+
+	// Based on top language
 	const topLanguage = profile.languages[0];
 	if (topLanguage) {
 		const langCategory = getLanguageCategory(topLanguage.name);
@@ -111,29 +128,76 @@ export function generateProfileTags(profile: GitHubProfile): string[] {
 	// Based on activity
 	if (profile.contributions) {
 		const totalContribs = profile.contributions.contributionCalendar.totalContributions;
-		if (totalContribs > 1000) {
+		const streak = getContributionStreak(profile);
+		
+		if (totalContribs > 5000) {
+			tags.push('Extremely Active');
+		} else if (totalContribs > 2000) {
 			tags.push('Highly Active');
+		} else if (totalContribs > 1000) {
+			tags.push('Very Active');
 		} else if (totalContribs > 365) {
 			tags.push('Consistent');
+		}
+
+		// Streak-based tags
+		if (streak > 365) {
+			tags.push('Year Streak');
+		} else if (streak > 100) {
+			tags.push('Long Streak');
+		} else if (streak > 30) {
+			tags.push('On Fire');
 		}
 	}
 
 	// Based on years
-	if (profile.stats.yearsActive > 5) {
+	if (profile.stats.yearsActive > 10) {
+		tags.push('Legend');
+	} else if (profile.stats.yearsActive > 5) {
 		tags.push('Veteran');
+	} else if (profile.stats.yearsActive > 2) {
+		tags.push('Experienced');
 	}
 
-	return tags.slice(0, 4); // Max 4 tags
+	// Based on external contributions
+	if (profile.contributions?.externalPRCount && profile.contributions.externalPRCount > 50) {
+		tags.push('Open Source Hero');
+	} else if (profile.contributions?.externalPRCount && profile.contributions.externalPRCount > 20) {
+		tags.push('Open Source Contributor');
+	}
+
+	// Based on forks (engagement)
+	if (profile.stats.totalForks > 500) {
+		tags.push('Widely Forked');
+	} else if (profile.stats.totalForks > 100) {
+		tags.push('Popular Projects');
+	}
+
+	// Special combinations
+	const hasHighStars = profile.stats.totalStars > 1000;
+	const hasHighFollowers = profile.stats.followers > 500;
+	const hasHighRepos = profile.stats.totalRepos > 50;
+	
+	if (hasHighStars && hasHighFollowers && hasHighRepos) {
+		tags.push('Elite Developer');
+	}
+
+	// Remove duplicates and limit
+	return [...new Set(tags)].slice(0, 5); // Max 5 tags
 }
 
 // Get category for programming language
 function getLanguageCategory(language: string): string | null {
 	const categories: Record<string, string[]> = {
-		'Full-Stack': ['TypeScript', 'JavaScript', 'Python', 'Ruby', 'PHP'],
-		Systems: ['Rust', 'Go', 'C', 'C++'],
-		Mobile: ['Swift', 'Kotlin', 'Dart'],
-		'Data Science': ['Python', 'R', 'Julia'],
-		DevOps: ['Shell', 'Dockerfile', 'HCL']
+		'Full-Stack': ['TypeScript', 'JavaScript', 'Python', 'Ruby', 'PHP', 'Java'],
+		'Systems': ['Rust', 'Go', 'C', 'C++', 'Zig'],
+		'Mobile': ['Swift', 'Kotlin', 'Dart', 'Objective-C'],
+		'Data Science': ['Python', 'R', 'Julia', 'MATLAB'],
+		'DevOps': ['Shell', 'Dockerfile', 'HCL', 'Makefile'],
+		'Web': ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'Vue', 'Svelte'],
+		'Game Dev': ['C#', 'C++', 'GDScript', 'Lua'],
+		'Security': ['Python', 'Go', 'Rust'],
+		'Cloud': ['HCL', 'YAML', 'Dockerfile']
 	};
 
 	for (const [category, languages] of Object.entries(categories)) {
