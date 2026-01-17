@@ -1,5 +1,5 @@
 import { env } from '$env/dynamic/private';
-const GITHUB_TOKEN = env.GITHUB_TOKEN;
+const GITHUB_TOKEN = env.GH_TOKEN;
 import type {
 	GitHubProfile,
 	GitHubUser,
