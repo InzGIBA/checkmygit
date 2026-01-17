@@ -44,6 +44,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GH_USERNAME: ${{ secrets.GH_USERNAME }}
+          LINKEDIN_URL: ${{ secrets.LINKEDIN_URL || '' }}
           BASE_PATH: ${{ secrets.BASE_PATH || '' }}
           CUSTOM_DOMAIN: ${{ secrets.CUSTOM_DOMAIN || '' }}
         run: npm run build
