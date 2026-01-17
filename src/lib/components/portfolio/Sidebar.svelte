@@ -7,10 +7,9 @@
 	interface Props {
 		profile: GitHubProfile;
 		class?: string;
-		views?: number;
 	}
 
-	let { profile, class: className = '', views = 0 }: Props = $props();
+	let { profile, class: className = '' }: Props = $props();
 
 	const tags = $derived(generateProfileTags(profile));
 	const joinDate = $derived(formatJoinDate(profile.user.createdAt));
@@ -179,14 +178,5 @@
 		>
 			<span><span class="font-semibold text-text-primary">{profile.stats.following}</span> following</span>
 		</a>
-	</div>
-
-	<!-- Profile Views -->
-	<div class="flex items-center justify-center lg:justify-start gap-2 text-sm text-text-secondary">
-		<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-		</svg>
-		<span><span class="font-semibold text-text-primary">{views.toLocaleString()}</span> views</span>
 	</div>
 </aside>

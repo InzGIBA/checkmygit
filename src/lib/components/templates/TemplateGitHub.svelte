@@ -13,10 +13,9 @@
 	interface Props {
 		profile: GitHubProfile;
 		class?: string;
-		views?: number;
 	}
 
-	let { profile, class: className = '', views = 0 }: Props = $props();
+	let { profile, class: className = '' }: Props = $props();
 
 	let sortBy = $state('stars');
 	const sortOptions = [
@@ -35,7 +34,7 @@
 	<div class="flex flex-col gap-8 lg:flex-row">
 		<!-- Sidebar -->
 		<div class="w-full lg:w-[296px] lg:flex-shrink-0">
-			<Sidebar {profile} {views} />
+			<Sidebar {profile} />
 		</div>
 
 		<!-- Main Content -->
