@@ -29,10 +29,9 @@
 
 			<!-- Tags -->
 			<div class="flex flex-wrap justify-center gap-2 lg:justify-start">
-				<Skeleton variant="rectangular" width="80px" height="24px" class="rounded-full" />
-				<Skeleton variant="rectangular" width="90px" height="24px" class="rounded-full" />
-				<Skeleton variant="rectangular" width="70px" height="24px" class="rounded-full" />
-				<Skeleton variant="rectangular" width="85px" height="24px" class="rounded-full" />
+				{#each [80, 90, 70, 85] as width, i (`tag-${i}`)}
+					<Skeleton variant="rectangular" width="{width}px" height="24px" class="rounded-full" />
+				{/each}
 			</div>
 
 			<!-- Meta Info -->
@@ -83,7 +82,7 @@
 
 			<!-- Stats Grid -->
 			<div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
-				{#each Array(4) as _}
+				{#each Array(4) as _, i (i)}
 					<Card variant="default" padding="md">
 						<div class="flex flex-col items-center text-center">
 							<Skeleton variant="rectangular" width="20px" height="20px" class="mb-2" />
@@ -110,7 +109,7 @@
 						<div class="mb-2 flex">
 							<div class="w-8 shrink-0"></div>
 							<div class="flex flex-1 gap-4">
-								{#each Array(6) as _}
+								{#each Array(6) as _, i (i)}
 									<Skeleton variant="text" width="30px" height="10px" />
 								{/each}
 							</div>
@@ -118,12 +117,12 @@
 						<!-- Graph grid -->
 						<div class="flex gap-2">
 							<div class="flex w-8 shrink-0 flex-col gap-1">
-								{#each Array(7) as _}
+								{#each Array(7) as _, i (i)}
 									<Skeleton variant="text" width="24px" height="10px" />
 								{/each}
 							</div>
 							<div class="grid flex-1 grid-cols-[repeat(52,1fr)] gap-0.5">
-								{#each Array(364) as _}
+								{#each Array(364) as _, i (i)}
 									<Skeleton variant="rectangular" class="aspect-square rounded-sm" />
 								{/each}
 							</div>
@@ -149,7 +148,7 @@
 								<Skeleton variant="text" width="90%" height="14px" />
 							</div>
 							<div class="flex flex-wrap gap-2 pt-2">
-								{#each Array(6) as _}
+								{#each Array(6) as _, i (i)}
 									<Skeleton variant="rectangular" width="70px" height="24px" class="rounded-full" />
 								{/each}
 							</div>
@@ -160,7 +159,7 @@
 						<div class="flex items-center gap-6">
 							<Skeleton variant="circular" width="120px" height="120px" />
 							<div class="flex-1 space-y-3">
-								{#each Array(5) as _}
+								{#each Array(5) as _, i (i)}
 									<div class="flex items-center justify-between">
 										<div class="flex items-center gap-2">
 											<Skeleton variant="circular" width="12px" height="12px" />
@@ -185,7 +184,7 @@
 					<Skeleton variant="rectangular" width="120px" height="36px" class="rounded-md" />
 				</div>
 				<div class="grid gap-4 sm:grid-cols-2">
-					{#each Array(4) as _}
+					{#each Array(4) as _, i (i)}
 						<!-- ProjectCard Skeleton -->
 						<div class="rounded-md border border-border-default bg-bg-secondary p-4">
 							<!-- Header -->

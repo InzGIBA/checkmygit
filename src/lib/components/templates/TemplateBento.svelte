@@ -2,7 +2,6 @@
 	import type { GitHubProfile } from '$lib/types/github';
 	import {
 		formatNumber,
-		getTotalContributions,
 		getMostActiveDay,
 		getContributionStreak
 	} from '$lib/utils/github-transform';
@@ -20,7 +19,6 @@
 
 	let { profile, class: className = '' }: Props = $props();
 
-	const totalContributions = $derived(getTotalContributions(profile));
 	const streak = $derived(getContributionStreak(profile));
 	const activeDay = $derived(getMostActiveDay(profile));
 
@@ -68,7 +66,7 @@
 				{/if}
 
 				<div class="mt-4 flex flex-wrap gap-2">
-					{#each profile.languages.slice(0, 5) as lang}
+					{#each profile.languages.slice(0, 5) as lang (lang.name)}
 						<Badge variant="outline" color={lang.color}>
 							{lang.name}
 						</Badge>
@@ -150,7 +148,7 @@
 			<div class="flex items-center gap-6">
 				<!-- Mini donut -->
 				<svg width="80" height="80" class="flex-shrink-0 -rotate-90">
-					{#each topLanguages as lang, i}
+					{#each topLanguages as lang, i (lang.name)}
 						{@const prevOffset = topLanguages
 							.slice(0, i)
 							.reduce((sum, l) => sum + (l.size / langTotal) * 100, 0)}
@@ -167,7 +165,7 @@
 					{/each}
 				</svg>
 				<div class="flex-1 space-y-2">
-					{#each topLanguages as lang}
+					{#each topLanguages as lang (lang.name)}
 						<div class="flex items-center justify-between text-sm">
 							<div class="flex items-center gap-2">
 								<div class="h-3 w-3 rounded-full" style="background-color: {lang.color}"></div>
@@ -276,7 +274,7 @@
 					<Dropdown options={sortOptions} bind:value={sortBy} />
 				</div>
 				<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-					{#each sortedRepos.slice(0, 6) as repo}
+					{#each sortedRepos.slice(0, 6) as repo (repo.name)}
 						<ProjectCard {repo} />
 					{/each}
 				</div>

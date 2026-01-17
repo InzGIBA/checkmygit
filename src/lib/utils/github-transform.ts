@@ -129,7 +129,7 @@ export function generateProfileTags(profile: GitHubProfile): string[] {
 	if (profile.contributions) {
 		const totalContribs = profile.contributions.contributionCalendar.totalContributions;
 		const streak = getContributionStreak(profile);
-		
+
 		if (totalContribs > 5000) {
 			tags.push('Extremely Active');
 		} else if (totalContribs > 2000) {
@@ -177,7 +177,7 @@ export function generateProfileTags(profile: GitHubProfile): string[] {
 	const hasHighStars = profile.stats.totalStars > 1000;
 	const hasHighFollowers = profile.stats.followers > 500;
 	const hasHighRepos = profile.stats.totalRepos > 50;
-	
+
 	if (hasHighStars && hasHighFollowers && hasHighRepos) {
 		tags.push('Elite Developer');
 	}
@@ -190,14 +190,14 @@ export function generateProfileTags(profile: GitHubProfile): string[] {
 function getLanguageCategory(language: string): string | null {
 	const categories: Record<string, string[]> = {
 		'Full-Stack': ['TypeScript', 'JavaScript', 'Python', 'Ruby', 'PHP', 'Java'],
-		'Systems': ['Rust', 'Go', 'C', 'C++', 'Zig'],
-		'Mobile': ['Swift', 'Kotlin', 'Dart', 'Objective-C'],
+		Systems: ['Rust', 'Go', 'C', 'C++', 'Zig'],
+		Mobile: ['Swift', 'Kotlin', 'Dart', 'Objective-C'],
 		'Data Science': ['Python', 'R', 'Julia', 'MATLAB'],
-		'DevOps': ['Shell', 'Dockerfile', 'HCL', 'Makefile'],
-		'Web': ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'Vue', 'Svelte'],
+		DevOps: ['Shell', 'Dockerfile', 'HCL', 'Makefile'],
+		Web: ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'Vue', 'Svelte'],
 		'Game Dev': ['C#', 'C++', 'GDScript', 'Lua'],
-		'Security': ['Python', 'Go', 'Rust'],
-		'Cloud': ['HCL', 'YAML', 'Dockerfile']
+		Security: ['Python', 'Go', 'Rust'],
+		Cloud: ['HCL', 'YAML', 'Dockerfile']
 	};
 
 	for (const [category, languages] of Object.entries(categories)) {

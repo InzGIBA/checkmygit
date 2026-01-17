@@ -12,7 +12,6 @@
 		id?: string;
 		name?: string;
 		required?: boolean;
-		autofocus?: boolean;
 		icon?: Snippet;
 		onchange?: (e: Event) => void;
 		oninput?: (e: Event) => void;
@@ -30,7 +29,6 @@
 		id,
 		name,
 		required = false,
-		autofocus = false,
 		icon,
 		onchange,
 		oninput,

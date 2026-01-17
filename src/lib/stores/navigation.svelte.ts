@@ -17,7 +17,7 @@ class NavigationState {
 		await new Promise((resolve) => setTimeout(resolve, 700));
 
 		// Navigate to the profile page (skeleton will show while data loads)
-		await goto(`/${username.trim()}`);
+		await goto(`/${username.trim()}`, { replaceState: false });
 
 		// Set entering phase for the new page
 		this.phase = 'entering';

@@ -1,9 +1,10 @@
 import { env } from '$env/dynamic/private';
 const GITHUB_TOKEN = env.GH_TOKEN;
-const LINKEDIN_URL = env.LINKEDIN_URL;
+const LINKEDIN_USERNAME = env.LINKEDIN_USERNAME;
+const TELEGRAM_USERNAME = env.TELEGRAM_USERNAME;
+const JSONRESUME_URL = env.JSONRESUME_URL;
 import type {
 	GitHubProfile,
-	GitHubUser,
 	GitHubRepository,
 	LanguageStats,
 	ContributionsCollection,
@@ -11,10 +12,10 @@ import type {
 	GraphQLUserResponse,
 	RESTUserResponse,
 	RESTRepoResponse,
-	GitHubResult,
-	GitHubError
+	GitHubResult
 } from '$lib/types/github';
 import { LANGUAGE_COLORS } from '$lib/types/portfolio';
+import { fetchResumeData } from './resume';
 
 const GITHUB_GRAPHQL_URL = 'https://api.github.com/graphql';
 const GITHUB_REST_URL = 'https://api.github.com';
@@ -193,7 +194,7 @@ async function fetchUserGraphQL(username: string): Promise<GitHubResult<GitHubPr
 			};
 		}
 
-		const profile = transformGraphQLResponse(json.data);
+		const profile = await transformGraphQLResponse(json.data);
 		return { success: true, data: profile };
 	} catch (error) {
 		return {
@@ -254,7 +255,7 @@ async function fetchUserREST(username: string): Promise<GitHubResult<GitHubProfi
 		);
 		const reposData = reposResponse.ok ? ((await reposResponse.json()) as RESTRepoResponse[]) : [];
 
-		const profile = transformRESTResponse(userData, reposData);
+		const profile = await transformRESTResponse(userData, reposData);
 		return { success: true, data: profile };
 	} catch (error) {
 		return {
@@ -289,7 +290,7 @@ export async function fetchGitHubProfile(username: string): Promise<GitHubResult
 }
 
 // Transform GraphQL response to normalized profile
-function transformGraphQLResponse(data: GraphQLUserResponse): GitHubProfile {
+async function transformGraphQLResponse(data: GraphQLUserResponse): Promise<GitHubProfile> {
 	const user = data.user!;
 
 	const repositories: GitHubRepository[] = user.repositories.nodes.map((repo) => ({
@@ -391,7 +392,7 @@ function transformGraphQLResponse(data: GraphQLUserResponse): GitHubProfile {
 
 	// Calculate language stats from all repositories (including forks)
 	const languages = calculateLanguageStats(repositories);
-	
+
 	// Filter out forks for other stats (stars, etc.)
 	const originalRepos = repositories.filter((repo) => !repo.isFork);
 	const yearsActive = calculateYearsActive(user.createdAt);
@@ -399,6 +400,9 @@ function transformGraphQLResponse(data: GraphQLUserResponse): GitHubProfile {
 	const totalStars = repositories.reduce((sum, repo) => sum + repo.stargazerCount, 0);
 	const originalStars = originalRepos.reduce((sum, repo) => sum + repo.stargazerCount, 0);
 	const totalForks = repositories.reduce((sum, repo) => sum + repo.forkCount, 0);
+
+	// Fetch resume data if URL is provided
+	const resumeData = JSONRESUME_URL ? await fetchResumeData(JSONRESUME_URL) : null;
 
 	return {
 		user: {
@@ -411,7 +415,8 @@ function transformGraphQLResponse(data: GraphQLUserResponse): GitHubProfile {
 			websiteUrl: user.websiteUrl,
 			twitterUsername: user.twitterUsername,
 			email: user.email,
-			linkedinUrl: LINKEDIN_URL || null,
+			linkedinUsername: LINKEDIN_USERNAME || null,
+			telegramUsername: TELEGRAM_USERNAME || null,
 			followers: user.followers.totalCount,
 			following: user.following.totalCount,
 			createdAt: user.createdAt,
@@ -422,6 +427,7 @@ function transformGraphQLResponse(data: GraphQLUserResponse): GitHubProfile {
 			pinnedRepositories.length > 0 ? pinnedRepositories : originalRepos.slice(0, 6),
 		contributions,
 		languages,
+		resumeData,
 		stats: {
 			totalRepos: user.repositories.totalCount,
 			totalStars,
@@ -435,10 +441,10 @@ function transformGraphQLResponse(data: GraphQLUserResponse): GitHubProfile {
 }
 
 // Transform REST response to normalized profile
-function transformRESTResponse(
+async function transformRESTResponse(
 	userData: RESTUserResponse,
 	reposData: RESTRepoResponse[]
-): GitHubProfile {
+): Promise<GitHubProfile> {
 	// Include all public repos (both original and forks)
 	const repositories: GitHubRepository[] = reposData
 		.filter((repo) => !repo.private)
@@ -462,7 +468,7 @@ function transformRESTResponse(
 
 	// Calculate language stats from all repositories (including forks)
 	const languages = calculateLanguageStats(repositories);
-	
+
 	// Filter out forks for other stats (stars, etc.)
 	const originalRepos = repositories.filter((repo) => !repo.isFork);
 	const yearsActive = calculateYearsActive(userData.created_at);
@@ -470,6 +476,9 @@ function transformRESTResponse(
 	const totalStars = repositories.reduce((sum, repo) => sum + repo.stargazerCount, 0);
 	const originalStars = originalRepos.reduce((sum, repo) => sum + repo.stargazerCount, 0);
 	const totalForks = repositories.reduce((sum, repo) => sum + repo.forkCount, 0);
+
+	// Fetch resume data if URL is provided
+	const resumeData = JSONRESUME_URL ? await fetchResumeData(JSONRESUME_URL) : null;
 
 	return {
 		user: {
@@ -482,7 +491,8 @@ function transformRESTResponse(
 			websiteUrl: userData.blog,
 			twitterUsername: userData.twitter_username,
 			email: userData.email,
-			linkedinUrl: LINKEDIN_URL || null,
+			linkedinUsername: LINKEDIN_USERNAME || null,
+			telegramUsername: TELEGRAM_USERNAME || null,
 			followers: userData.followers,
 			following: userData.following,
 			createdAt: userData.created_at,
@@ -492,6 +502,7 @@ function transformRESTResponse(
 		pinnedRepositories: originalRepos.slice(0, 6), // REST API doesn't have pinned items
 		contributions: null, // REST API doesn't have contribution data
 		languages,
+		resumeData,
 		stats: {
 			totalRepos: userData.public_repos,
 			totalStars,

@@ -11,7 +11,7 @@
 	// Calculate rotation based on scroll position relative to section
 	let rotateX = $derived.by(() => {
 		// Reference scrollY to ensure this re-runs on scroll
-		const _ = scrollY;
+		void scrollY;
 
 		if (!sectionEl || typeof window === 'undefined') return 20;
 

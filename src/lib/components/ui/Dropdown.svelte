@@ -100,8 +100,7 @@
 				shadow-[var(--shadow-lg)]
 			"
 		>
-			{#each options as option}
-				<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+			{#each options as option (option.value)}
 				<div
 					role="option"
 					aria-selected={option.value === value}

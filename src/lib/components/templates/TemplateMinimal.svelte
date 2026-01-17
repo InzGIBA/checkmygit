@@ -63,6 +63,7 @@
 						: `https://${profile.user.websiteUrl}`}
 					target="_blank"
 					rel="noopener noreferrer"
+					data-sveltekit-preload-data="off"
 					class="text-accent-green hover:underline"
 				>
 					{profile.user.websiteUrl.replace(/^https?:\/\//, '')}
@@ -115,7 +116,7 @@
 				Technologies
 			</h2>
 			<div class="flex flex-wrap justify-center gap-2">
-				{#each profile.languages as lang}
+				{#each profile.languages as lang (lang.name)}
 					<Badge variant="outline" color={lang.color} size="md">
 						{lang.name}
 					</Badge>
@@ -145,11 +146,12 @@
 				<Dropdown options={sortOptions} bind:value={sortBy} />
 			</div>
 			<div class="space-y-6">
-				{#each sortedRepos.slice(0, 4) as repo}
+				{#each sortedRepos.slice(0, 4) as repo (repo.url)}
 					<a
 						href={repo.url}
 						target="_blank"
 						rel="noopener noreferrer"
+						data-sveltekit-preload-data="off"
 						class="group block border-b border-border-muted pb-6 last:border-0"
 					>
 						<div class="flex items-start justify-between">
@@ -197,6 +199,7 @@
 				href="https://github.com/{profile.user.login}"
 				target="_blank"
 				rel="noopener noreferrer"
+				data-sveltekit-preload-data="off"
 				class="text-accent-green hover:underline"
 			>
 				View on GitHub →

@@ -2,6 +2,7 @@
 	import type { GitHubProfile } from '$lib/types/github';
 	import Badge from '$lib/components/ui/Badge.svelte';
 	import LinkedInButton from '$lib/components/ui/LinkedInButton.svelte';
+	import TelegramButton from '$lib/components/ui/TelegramButton.svelte';
 
 	interface Props {
 		profile: GitHubProfile;
@@ -73,7 +74,7 @@
 		</div>
 
 		<!-- Social Links -->
-		{#if profile.user.websiteUrl || profile.user.twitterUsername || profile.user.linkedinUrl}
+		{#if profile.user.websiteUrl || profile.user.twitterUsername || profile.user.linkedinUsername || profile.user.telegramUsername}
 			<div class="mt-3 flex flex-wrap gap-2">
 				{#if profile.user.websiteUrl}
 					<a
@@ -82,6 +83,7 @@
 							: `https://${profile.user.websiteUrl}`}
 						target="_blank"
 						rel="noopener noreferrer"
+						data-sveltekit-preload-data="off"
 						class="border-border-primary inline-flex items-center gap-2 rounded-lg border bg-bg-secondary px-3 py-1.5 text-sm font-medium text-text-primary transition-colors hover:bg-bg-tertiary"
 					>
 						<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -100,6 +102,7 @@
 						href="https://twitter.com/{profile.user.twitterUsername}"
 						target="_blank"
 						rel="noopener noreferrer"
+						data-sveltekit-preload-data="off"
 						class="border-border-primary inline-flex items-center gap-2 rounded-lg border bg-bg-secondary px-3 py-1.5 text-sm font-medium text-text-primary transition-colors hover:bg-bg-tertiary"
 					>
 						<svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
@@ -110,8 +113,11 @@
 						Twitter
 					</a>
 				{/if}
-				{#if profile.user.linkedinUrl}
-					<LinkedInButton linkedinUrl={profile.user.linkedinUrl} />
+				{#if profile.user.linkedinUsername}
+					<LinkedInButton linkedinUsername={profile.user.linkedinUsername} />
+				{/if}
+				{#if profile.user.telegramUsername}
+					<TelegramButton telegramUsername={profile.user.telegramUsername} />
 				{/if}
 			</div>
 		{/if}

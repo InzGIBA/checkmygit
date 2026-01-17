@@ -59,6 +59,7 @@
 		class={classes}
 		class:opacity-50={disabled}
 		rel={target === '_blank' ? 'noopener noreferrer' : undefined}
+		data-sveltekit-preload-data="off"
 	>
 		{#if loading}
 			<svg class="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">

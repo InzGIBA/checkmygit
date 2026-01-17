@@ -1,29 +1,23 @@
 <script lang="ts">
 	interface Props {
-		linkedinUrl: string;
+		linkedinUsername: string;
 		class?: string;
 	}
 
-	let { linkedinUrl, class: className = '' }: Props = $props();
+	let { linkedinUsername, class: className = '' }: Props = $props();
 
-	// Normalize URL: convert username to full URL, or use full URL as-is
-	const normalizedUrl = $derived(() => {
-		if (!linkedinUrl) return '';
-
-		// If it doesn't start with http, treat it as a username
-		if (!linkedinUrl.startsWith('http')) {
-			return `https://www.linkedin.com/in/${linkedinUrl}`;
-		}
-
-		// Otherwise, use the full URL as-is
-		return linkedinUrl;
+	// Generate LinkedIn URL from username
+	const linkedinUrl = $derived(() => {
+		if (!linkedinUsername) return '';
+		return `https://www.linkedin.com/in/${linkedinUsername}`;
 	});
 </script>
 
 <a
-	href={normalizedUrl()}
+	href={linkedinUrl()}
 	target="_blank"
 	rel="noopener noreferrer"
+	data-sveltekit-preload-data="off"
 	class="inline-flex items-center justify-center gap-2 rounded-[var(--radius-md)] border border-[var(--color-border-default)] bg-[var(--color-btn-secondary-bg)] px-4 py-2 text-sm font-medium text-[var(--color-btn-secondary-text)] transition-colors hover:border-[var(--color-border-muted)] hover:bg-[var(--color-btn-secondary-hover)] focus-visible:ring-2 focus-visible:ring-[var(--color-saas-green)] focus-visible:ring-offset-2 focus-visible:outline-none {className}"
 >
 	<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">

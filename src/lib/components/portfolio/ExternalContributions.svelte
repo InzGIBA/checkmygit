@@ -52,7 +52,7 @@
 
 	<!-- Contributions Grid (2x2 like Notable Projects) -->
 	<div class="grid gap-4 sm:grid-cols-2">
-		{#each topContributions as contrib}
+		{#each topContributions as contrib (contrib.repoName)}
 			<a
 				href="https://github.com/{contrib.repoName}"
 				target="_blank"

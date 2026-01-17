@@ -22,7 +22,7 @@
 		</div>
 
 		<div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
-			{#each featuredProfiles as profile}
+			{#each featuredProfiles as profile (profile.username)}
 				<button
 					type="button"
 					onclick={() => handleProfileClick(profile.username)}

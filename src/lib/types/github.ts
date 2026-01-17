@@ -1,3 +1,5 @@
+import type { ResumeData } from './resume';
+
 // GitHub API Response Types
 
 export interface GitHubUser {
@@ -10,7 +12,8 @@ export interface GitHubUser {
 	websiteUrl: string | null;
 	twitterUsername: string | null;
 	email: string | null;
-	linkedinUrl: string | null;
+	linkedinUsername: string | null;
+	telegramUsername: string | null;
 	followers: number;
 	following: number;
 	createdAt: string;
@@ -97,6 +100,7 @@ export interface GitHubProfile {
 	pinnedRepositories: GitHubRepository[];
 	contributions: ContributionsCollection | null;
 	languages: LanguageStats[];
+	resumeData: ResumeData | null;
 	stats: {
 		totalRepos: number;
 		totalStars: number;

@@ -30,31 +30,6 @@
 	}
 
 	let { languages, bio, class: className = '' }: Props = $props();
-
-	// Categorize technologies
-	const categories = $derived(() => {
-		const result: Record<string, LanguageStats[]> = {
-			Languages: [],
-			Frameworks: [],
-			Tools: []
-		};
-
-		// This is simplified - in real app you might want more sophisticated categorization
-		const frameworkKeywords = ['React', 'Vue', 'Svelte', 'Angular', 'Next', 'Nuxt'];
-		const toolKeywords = ['Docker', 'Kubernetes', 'Terraform', 'Shell'];
-
-		for (const lang of languages) {
-			if (frameworkKeywords.some((kw) => lang.name.includes(kw))) {
-				result.Frameworks.push(lang);
-			} else if (toolKeywords.some((kw) => lang.name.includes(kw))) {
-				result.Tools.push(lang);
-			} else {
-				result.Languages.push(lang);
-			}
-		}
-
-		return result;
-	});
 </script>
 
 <Card variant="default" padding="md" class={className}>
@@ -79,7 +54,7 @@
 			Requirements: 3.1, 3.2, 3.3
 		-->
 		<div class="flex flex-wrap gap-2">
-			{#each languages.slice(0, 8) as lang}
+			{#each languages.slice(0, 8) as lang (lang.name)}
 				<Badge variant="outline" color={lang.color}>
 					<span
 						class="mr-1.5 inline-block h-2 w-2 rounded-full"

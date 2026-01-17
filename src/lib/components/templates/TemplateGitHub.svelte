@@ -9,6 +9,13 @@
 	import TechStack from '$lib/components/portfolio/TechStack.svelte';
 	import Card from '$lib/components/ui/Card.svelte';
 	import Dropdown from '$lib/components/ui/Dropdown.svelte';
+	import WorkExperience from '$lib/components/portfolio/WorkExperience.svelte';
+	import Education from '$lib/components/portfolio/Education.svelte';
+	import Skills from '$lib/components/portfolio/Skills.svelte';
+	import Projects from '$lib/components/portfolio/Projects.svelte';
+	import Volunteer from '$lib/components/portfolio/Volunteer.svelte';
+	import Awards from '$lib/components/portfolio/Awards.svelte';
+	import Publications from '$lib/components/portfolio/Publications.svelte';
 
 	interface Props {
 		profile: GitHubProfile;
@@ -31,9 +38,9 @@
 </script>
 
 <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 {className}">
-	<div class="flex flex-col gap-8 lg:flex-row">
+	<div class="flex flex-col gap-8 lg:flex-row lg:items-start">
 		<!-- Sidebar -->
-		<div class="w-full lg:w-[296px] lg:flex-shrink-0">
+		<div class="w-full lg:sticky lg:top-8 lg:w-[296px] lg:flex-shrink-0 lg:self-start">
 			<Sidebar {profile} />
 		</div>
 
@@ -41,17 +48,21 @@
 		<div class="flex-1 space-y-6">
 			<!-- Welcome Banner -->
 			<Card variant="default" padding="lg">
-				<div class="flex items-center justify-between">
-					<div>
+				<div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+					<div class="flex-1">
 						<h2 class="text-xl font-semibold text-text-primary">
-							Welcome to {profile.user.name || profile.user.login}'s Hub
+							Welcome to {profile.user.name || profile.user.login}'s Portfolio
 						</h2>
 						<p class="mt-1 text-sm text-text-secondary">
-							Explore their open source contributions and projects
+							Explore their professional profile, open source contributions, and projects
 						</p>
 					</div>
-					<div class="text-right text-xs text-text-tertiary">
-						Powered by <span class="font-semibold text-accent-green">CheckMyGit</span>
+					<div class="flex items-center gap-2 text-xs text-text-tertiary">
+						<span>Powered by
+						<span class="font-semibold text-accent-green">CheckMyGit</span>
+						&
+						<span class="font-semibold text-accent-green">JSON Resume</span>
+						</span>
 					</div>
 				</div>
 			</Card>
@@ -120,11 +131,60 @@
 						<Dropdown options={sortOptions} bind:value={sortBy} />
 					</div>
 					<div class="grid gap-4 sm:grid-cols-2">
-						{#each sortedRepos as repo}
+						{#each sortedRepos as repo (repo.name)}
 							<ProjectCard {repo} />
 						{/each}
 					</div>
 				</div>
+			{/if}
+
+			<!-- Resume Section Divider -->
+			{#if profile.resumeData && (profile.resumeData.work || profile.resumeData.education || profile.resumeData.skills || profile.resumeData.projects || profile.resumeData.volunteer || profile.resumeData.awards || profile.resumeData.publications)}
+				<div class="relative py-4">
+					<div class="absolute inset-0 flex items-center" aria-hidden="true">
+						<div class="w-full border-t border-border-default"></div>
+					</div>
+					<div class="relative flex justify-center">
+						<span class="bg-bg-primary px-4 text-sm font-medium text-text-tertiary">
+							Professional Experience & Achievements
+						</span>
+					</div>
+				</div>
+			{/if}
+
+			<!-- Work Experience -->
+			{#if profile.resumeData?.work}
+				<WorkExperience work={profile.resumeData.work} />
+			{/if}
+
+			<!-- Education -->
+			{#if profile.resumeData?.education}
+				<Education education={profile.resumeData.education} />
+			{/if}
+
+			<!-- Skills -->
+			{#if profile.resumeData?.skills}
+				<Skills skills={profile.resumeData.skills} />
+			{/if}
+
+			<!-- Projects -->
+			{#if profile.resumeData?.projects}
+				<Projects projects={profile.resumeData.projects} />
+			{/if}
+
+			<!-- Volunteer -->
+			{#if profile.resumeData?.volunteer}
+				<Volunteer volunteer={profile.resumeData.volunteer} />
+			{/if}
+
+			<!-- Awards -->
+			{#if profile.resumeData?.awards}
+				<Awards awards={profile.resumeData.awards} />
+			{/if}
+
+			<!-- Publications -->
+			{#if profile.resumeData?.publications}
+				<Publications publications={profile.resumeData.publications} />
 			{/if}
 		</div>
 	</div>

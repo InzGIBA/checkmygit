@@ -33,7 +33,10 @@
 		"
 		role="alert"
 	>
-		{@html icons[type]}
+		<div class="flex-shrink-0">
+			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+			{@html icons[type]}
+		</div>
 		<p class="flex-1 text-sm font-medium">{message}</p>
 		{#if onclose}
 			<button

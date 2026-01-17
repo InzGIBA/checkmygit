@@ -100,9 +100,9 @@
 
 					<!-- Months Grid -->
 					<div class="flex flex-1 justify-between gap-0.5">
-						{#each weeks as week, i}
+						{#each weeks as week, i (week.contributionDays[0]?.date ?? i)}
 							<div class="relative min-w-0 flex-1">
-								{#each monthLabels as month}
+								{#each monthLabels as month (month.col)}
 									{#if month.col === i}
 										<span class="absolute bottom-0 left-0 truncate text-[10px]">
 											{month.label}
@@ -118,7 +118,7 @@
 				<div class="flex w-full gap-2">
 					<!-- Day labels -->
 					<div class="flex w-8 shrink-0 flex-col gap-0.5">
-						{#each dayLabels as label}
+						{#each dayLabels as label (label)}
 							<div
 								class="flex flex-1 items-center justify-end text-[10px] leading-none text-text-tertiary"
 							>
@@ -129,9 +129,9 @@
 
 					<!-- Contribution squares -->
 					<div class="flex flex-1 justify-between gap-0.5">
-						{#each weeks as week}
+						{#each weeks as week (week.contributionDays[0]?.date ?? '')}
 							<div class="flex min-w-0 flex-1 flex-col gap-0.5">
-								{#each week.contributionDays as day}
+								{#each week.contributionDays as day (day.date)}
 									<div
 										class="aspect-square w-full rounded-sm transition-opacity hover:opacity-80"
 										style="background-color: {getContributionColor(

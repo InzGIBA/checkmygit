@@ -46,7 +46,7 @@
 		{#if topLanguages.length > 0}
 			<div class="relative shrink-0">
 				<svg width={size} height={size} class="-rotate-90">
-					{#each segments as segment}
+					{#each segments as segment (segment.lang.name)}
 						<circle
 							cx={size / 2}
 							cy={size / 2}
@@ -67,7 +67,7 @@
 
 			<!-- Legend -->
 			<div class="flex-1 space-y-2">
-				{#each topLanguages as lang}
+				{#each topLanguages as lang (lang.name)}
 					<div class="flex items-center justify-between text-sm">
 						<div class="flex items-center gap-2">
 							<div class="h-3 w-3 rounded-full" style="background-color: {lang.color}"></div>

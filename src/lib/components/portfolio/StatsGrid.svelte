@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { GitHubProfile } from '$lib/types/github';
-	import { formatNumber, getTotalContributions } from '$lib/utils/github-transform';
+	import { formatNumber } from '$lib/utils/github-transform';
 	import Card from '$lib/components/ui/Card.svelte';
 
 	interface Props {
@@ -13,8 +13,6 @@
 
 	// Client-side filter for stars display
 	let repoType = $state<'all' | 'original'>('all');
-
-	const totalContributions = $derived(getTotalContributions(profile));
 
 	// Show different stars based on filter
 	const displayStars = $derived(
@@ -52,6 +50,7 @@
 		<Card variant="default" padding="md">
 			<div class="flex flex-col items-center text-center">
 				<div class="mb-2 text-text-tertiary">
+					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 					{@html staticStats[0].icon}
 				</div>
 				<div class="text-3xl font-bold text-text-primary">
@@ -110,6 +109,7 @@
 		<Card variant="default" padding="md">
 			<div class="flex flex-col items-center text-center">
 				<div class="mb-2 text-text-tertiary">
+					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 					{@html staticStats[1].icon}
 				</div>
 				<div class="text-3xl font-bold text-text-primary">
@@ -125,6 +125,7 @@
 		<Card variant="default" padding="md">
 			<div class="flex flex-col items-center text-center">
 				<div class="mb-2 text-text-tertiary">
+					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 					{@html staticStats[2].icon}
 				</div>
 				<div class="text-3xl font-bold text-text-primary">

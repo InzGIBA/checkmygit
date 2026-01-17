@@ -15,6 +15,7 @@
 	href={repo.url}
 	target="_blank"
 	rel="noopener noreferrer"
+	data-sveltekit-preload-data="off"
 	class="
 		group block rounded-md border border-border-default
 		bg-bg-secondary p-4 transition-all
@@ -58,7 +59,7 @@
 	<!-- Topics -->
 	{#if repo.topics && repo.topics.length > 0}
 		<div class="mb-3 flex flex-wrap gap-1">
-			{#each repo.topics.slice(0, 3) as topic}
+			{#each repo.topics.slice(0, 3) as topic (topic)}
 				<span class="rounded-full bg-accent-green/10 px-2 py-0.5 text-xs text-accent-green">
 					{topic}
 				</span>
