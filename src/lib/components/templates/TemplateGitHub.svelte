@@ -163,9 +163,9 @@
 			{/if}
 
 			<!-- Skills -->
-			{#if profile.resumeData?.skills}
+			<!-- {#if profile.resumeData?.skills}
 				<Skills skills={profile.resumeData.skills} />
-			{/if}
+			{/if} -->
 
 			<!-- Projects -->
 			{#if profile.resumeData?.projects}
